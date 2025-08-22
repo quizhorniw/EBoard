@@ -1,4 +1,4 @@
-namespace SolarLab.EBoard.Domain.Enums;
+namespace SolarLab.EBoard.Domain.AdPosts;
 
 public enum PostStatus
 {

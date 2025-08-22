@@ -1,4 +1,4 @@
-using SolarLab.EBoard.Domain.Entities;
+using SolarLab.EBoard.Domain.AdPosts;
 
 namespace SolarLab.EBoard.Domain.Interfaces;
 
