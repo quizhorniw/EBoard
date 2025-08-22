@@ -1,4 +1,4 @@
-namespace SolarLab.EBoard.Domain.Entities;
+namespace SolarLab.EBoard.Domain.Users;
 
 public sealed class User
 {

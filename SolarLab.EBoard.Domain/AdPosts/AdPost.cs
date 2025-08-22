@@ -1,8 +1,8 @@
-using SolarLab.EBoard.Domain.Enums;
+using SolarLab.EBoard.Domain.Commons;
 
-namespace SolarLab.EBoard.Domain.Entities;
+namespace SolarLab.EBoard.Domain.AdPosts;
 
-public sealed class AdPost
+public sealed class AdPost : Entity
 {
     public Guid Id { get; private set; }
     public string Title { get; private set; }
@@ -48,5 +48,24 @@ public sealed class AdPost
 
         Status = PostStatus.Archived;
         ArchivedAt = DateTime.UtcNow;
+        
+        Raise(new AdPostArchivedEvent(Id));
+    }
+
+    public void UpdateDetails(string title, string description, decimal price)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            throw new ArgumentException("Title is required.", nameof(title));
+        }
+
+        if (price < 0)
+        {
+            throw new ArgumentException("Price cannot be negative.", nameof(price));
+        }
+        
+        Title = title;
+        Description = description;
+        Price = price;
     }
 }
