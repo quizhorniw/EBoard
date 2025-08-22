@@ -1,0 +1,9 @@
+using SolarLab.EBoard.Domain.Entities;
+
+namespace SolarLab.EBoard.Domain.Interfaces;
+
+public interface IUsersRepository
+{
+    Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+    Task AddAsync(User user, CancellationToken cancellationToken = default);
+}
