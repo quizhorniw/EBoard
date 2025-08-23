@@ -1,0 +1,10 @@
+@HostAddress = http://localhost:5286
+
+### Get all ad posts
+GET {{HostAddress}}/api/AdPosts
+Accept: application/json
+
+### Get ad post by id
+@AdPostId = 1
+GET {{HostAddress}}/api/AdPosts/{{AdPostId}}
+Accept: application/json
