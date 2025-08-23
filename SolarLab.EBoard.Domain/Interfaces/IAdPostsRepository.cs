@@ -8,4 +8,5 @@ public interface IAdPostsRepository
     Task<AdPost?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task AddAsync(AdPost adPost, CancellationToken cancellationToken = default);
     Task UpdateAsync(AdPost adPost, CancellationToken cancellationToken = default);
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 }

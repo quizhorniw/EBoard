@@ -1,11 +1,11 @@
 @HostAddress = http://localhost:5286
+@AdPostId = 79db479b-86f8-4076-8744-e7623a860056
 
 ### Get all ad posts
 GET {{HostAddress}}/api/AdPosts
 Accept: application/json
 
 ### Get ad post by id
-@AdPostId = 79db479b-86f8-4076-8744-e7623a860056
 GET {{HostAddress}}/api/AdPosts/{{AdPostId}}
 Accept: application/json
 
@@ -18,3 +18,17 @@ Content-Type: application/json
   "title": "Велосипед",
   "price": 5000
 }
+
+### Update ad post
+PUT {{HostAddress}}/api/AdPosts/{{AdPostId}}
+Content-Type: application/json
+
+{
+  "adPostId": "79db479b-86f8-4076-8744-e7623a860056",
+  "title": "Мотоцикл",
+  "description": "Мотоцикл Suzuki 2018 г.",
+  "price": 40000
+}
+
+### Delete ad post
+DELETE {{HostAddress}}/api/AdPosts/{{AdPostId}}

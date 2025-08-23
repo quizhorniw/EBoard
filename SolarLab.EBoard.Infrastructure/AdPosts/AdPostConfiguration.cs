@@ -16,7 +16,6 @@ internal sealed class AdPostConfiguration : IEntityTypeConfiguration<AdPost>
         builder.Property(p => p.Price).IsRequired();
         builder.Property(p => p.UserId).IsRequired();
         builder.Property(p => p.CreatedAt).IsRequired();
-        builder.Property(p => p.Status).IsRequired();
         
         builder.HasOne<User>().WithMany().HasForeignKey(x => x.UserId);
     }
