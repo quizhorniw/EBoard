@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SolarLab.EBoard.Application.AdPosts.Archive;
 using SolarLab.EBoard.Application.AdPosts.Create;
+using SolarLab.EBoard.Application.AdPosts.Delete;
 using SolarLab.EBoard.Application.AdPosts.GetAll;
 using SolarLab.EBoard.Application.AdPosts.GetById;
 using SolarLab.EBoard.Application.AdPosts.Update;
@@ -51,11 +51,10 @@ public class AdPostsController : ControllerBase
         return NoContent();
     }
 
-    // TODO: Retrieve UserId from JWT
     [HttpDelete("{adPostId:guid}")]
-    public async Task<ActionResult> Archive(Guid adPostId, Guid userId, CancellationToken cancellationToken)
+    public async Task<ActionResult> Delete(Guid adPostId, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new ArchiveAdPostCommand(adPostId, userId), cancellationToken);
+        await _mediator.Send(new DeleteAdPostCommand(adPostId), cancellationToken);
         return NoContent();
     }
 }
