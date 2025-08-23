@@ -1,0 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using SolarLab.EBoard.Domain.Interfaces;
+using SolarLab.EBoard.Domain.Users;
+
+namespace SolarLab.EBoard.Infrastructure.Persistence;
+
+public class UsersRepository : IUsersRepository
+{
+    private readonly AppDbContext _context;
+
+    public UsersRepository(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+    }
+
+    public async Task AddAsync(User user, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+}
