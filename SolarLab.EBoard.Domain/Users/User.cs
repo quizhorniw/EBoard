@@ -1,6 +1,8 @@
+using SolarLab.EBoard.Domain.Commons;
+
 namespace SolarLab.EBoard.Domain.Users;
 
-public sealed class User
+public sealed class User : Entity
 {
     public Guid Id { get; set; }
     public string Email { get; set; }
