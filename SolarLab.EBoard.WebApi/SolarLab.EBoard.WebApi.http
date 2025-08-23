@@ -5,6 +5,16 @@ GET {{HostAddress}}/api/AdPosts
 Accept: application/json
 
 ### Get ad post by id
-@AdPostId = 1
+@AdPostId = 79db479b-86f8-4076-8744-e7623a860056
 GET {{HostAddress}}/api/AdPosts/{{AdPostId}}
 Accept: application/json
+
+### Create ad post
+POST {{HostAddress}}/api/AdPosts
+Content-Type: application/json
+
+{
+  "userId": "998eb93b-e028-4ae8-9673-3483484cf3df",
+  "title": "Велосипед",
+  "price": 5000
+}
