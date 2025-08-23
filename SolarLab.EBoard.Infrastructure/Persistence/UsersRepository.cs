@@ -20,6 +20,7 @@ public class UsersRepository : IUsersRepository
 
     public async Task AddAsync(User user, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await _context.Users.AddAsync(user, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

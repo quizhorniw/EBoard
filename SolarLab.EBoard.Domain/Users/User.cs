@@ -32,5 +32,7 @@ public sealed class User : Entity
         FirstName = firstName;
         LastName = lastName;
         PasswordHash = passwordHash;
+        
+        Raise(new UserRegisteredDomainEvent(Id));
     }
 }
