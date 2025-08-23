@@ -10,10 +10,8 @@ public sealed class AdPost : Entity
     public decimal Price { get; private set; }
     public Guid UserId { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public DateTime? ArchivedAt { get; private set; }
-    public PostStatus Status { get; private set; }
     
-    public AdPost(Guid userId, string title, string description, decimal price)
+    public AdPost(Guid userId, string title, string? description, decimal price)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -31,28 +29,9 @@ public sealed class AdPost : Entity
         Description = description;
         Price = price;
         CreatedAt = DateTime.UtcNow;
-        Status = PostStatus.Active;
     }
 
-    public void Archive(Guid requestUserId)
-    {
-        if (requestUserId != UserId)
-        {
-            throw new InvalidOperationException("Only the owner can archive the post.");
-        }
-
-        if (Status == PostStatus.Archived)
-        {
-            throw new InvalidOperationException("Post is already archived.");
-        }
-
-        Status = PostStatus.Archived;
-        ArchivedAt = DateTime.UtcNow;
-        
-        Raise(new AdPostArchivedEvent(Id));
-    }
-
-    public void UpdateDetails(string title, string description, decimal price)
+    public void UpdateDetails(string title, string? description, decimal price)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
