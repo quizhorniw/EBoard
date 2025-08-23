@@ -27,7 +27,7 @@ public class AdPostsController : ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("/{adPostId:guid}")]
+    [HttpGet("{adPostId:guid}")]
     public async Task<ActionResult<IEnumerable<AdPost>>> GetById(Guid adPostId, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetAdPostByIdQuery(adPostId), cancellationToken);
@@ -38,7 +38,7 @@ public class AdPostsController : ControllerBase
     public async Task<ActionResult<Guid>> Create(CreateAdPostCommand command, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(command, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { result }, result);
+        return CreatedAtAction(nameof(GetById), new { adPostId = result }, result);
     }
 
     [HttpPut("{adPostId:guid}")]
