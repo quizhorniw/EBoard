@@ -1,5 +1,6 @@
 using SolarLab.EBoard.Application;
 using SolarLab.EBoard.Infrastructure;
+using SolarLab.EBoard.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MigrateDb();
 }
 
 app.UseHttpsRedirection();
