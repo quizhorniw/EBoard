@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SolarLab.EBoard.Application.AdPosts.Create;
 using SolarLab.EBoard.Application.AdPosts.Delete;
@@ -21,6 +22,7 @@ public class AdPostsController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<AdPost>>> GetAll(CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetAllAdPostsQuery(), cancellationToken);
@@ -28,6 +30,7 @@ public class AdPostsController : ControllerBase
     }
     
     [HttpGet("{adPostId:guid}")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<AdPost>>> GetById(Guid adPostId, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetAdPostByIdQuery(adPostId), cancellationToken);
@@ -35,6 +38,7 @@ public class AdPostsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Guid>> Create(CreateAdPostCommand command, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(command, cancellationToken);
@@ -42,6 +46,7 @@ public class AdPostsController : ControllerBase
     }
 
     [HttpPut("{adPostId:guid}")]
+    [Authorize]
     public async Task<ActionResult> Update(Guid adPostId, UpdateAdPostCommand command, CancellationToken cancellationToken)
     {
         if (adPostId != command.AdPostId)
@@ -52,6 +57,7 @@ public class AdPostsController : ControllerBase
     }
 
     [HttpDelete("{adPostId:guid}")]
+    [Authorize]
     public async Task<ActionResult> Delete(Guid adPostId, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteAdPostCommand(adPostId), cancellationToken);
