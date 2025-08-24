@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using SolarLab.EBoard.Application.Abstractions.Authentication;
 
@@ -12,10 +13,11 @@ public class UserContext : IUserContext
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public Guid UserId =>
-        _httpContextAccessor
-            .HttpContext?
-            .User
-            .GetUserId() ??
-        throw new ApplicationException("User context is unavailable");
+    private ClaimsPrincipal User =>
+        _httpContextAccessor.HttpContext?.User 
+        ?? throw new ApplicationException("User context is unavailable");
+
+    public Guid UserId => User.GetUserId();
+
+    public bool IsInRole(string role) => User.IsInRole(role);
 }
