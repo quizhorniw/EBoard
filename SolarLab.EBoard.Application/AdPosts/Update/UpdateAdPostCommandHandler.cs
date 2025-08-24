@@ -17,14 +17,13 @@ public sealed class UpdateAdPostCommandHandler : IRequestHandler<UpdateAdPostCom
 
     public async Task Handle(UpdateAdPostCommand request, CancellationToken cancellationToken)
     {
-        
         var adPost = await _adPostsRepository.GetByIdAsync(request.AdPostId, cancellationToken);
-        if (adPost == null)
+        if (adPost is null)
         {
             throw new KeyNotFoundException("Ad post not found");
         }
 
-        if (_userContext.UserId != adPost.UserId)
+        if (!_userContext.IsInRole("Admin") && _userContext.UserId != adPost.UserId)
         {
             throw new UnauthorizedAccessException("No permission to update this ad post");
         }
