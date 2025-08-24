@@ -1,21 +1,33 @@
+using System.Text.RegularExpressions;
 using SolarLab.EBoard.Domain.Commons;
 
 namespace SolarLab.EBoard.Domain.Users;
 
 public sealed class User : Entity
 {
+    private readonly Regex _emailRegex = new(@"^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b$", 
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private readonly Regex _phoneNumberRegex = new(@"^\+7\d{10}$", RegexOptions.Compiled);
+    
     public Guid Id { get; private set; }
     public string Email { get; private set; }
+    public string? PhoneNumber { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string PasswordHash { get; private set; }
     public string Role { get; private set; }
 
-    public User(string email, string firstName, string lastName, string passwordHash)
+    public User(string email, string? phoneNumber, string firstName, string lastName, string passwordHash)
     {
-        if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
+        if (string.IsNullOrWhiteSpace(email) || !_emailRegex.IsMatch(email))
         {
             throw new ArgumentException("Invalid email address.", nameof(email));
+        }
+
+        // If phone number present then validate it using regex
+        if (phoneNumber != null && !_phoneNumberRegex.IsMatch(phoneNumber))
+        {
+            throw new ArgumentException("Invalid phone number.", nameof(phoneNumber));
         }
 
         if (string.IsNullOrWhiteSpace(firstName) || firstName.Any(char.IsWhiteSpace))
@@ -30,6 +42,7 @@ public sealed class User : Entity
         
         Id = Guid.NewGuid();
         Email = email;
+        PhoneNumber = phoneNumber;
         FirstName = firstName;
         LastName = lastName;
         PasswordHash = passwordHash;
