@@ -20,6 +20,7 @@ internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserC
     {
         var user = new User(
             request.Email,
+            request.PhoneNumber,
             request.FirstName,
             request.LastName,
             _passwordHasher.Hash(request.Password)

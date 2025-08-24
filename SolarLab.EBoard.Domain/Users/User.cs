@@ -1,17 +1,21 @@
+using System.Text.RegularExpressions;
 using SolarLab.EBoard.Domain.Commons;
 
 namespace SolarLab.EBoard.Domain.Users;
 
 public sealed class User : Entity
 {
+    private readonly Regex _phoneNumberRegex = new(@"^\+7\d{10}$", RegexOptions.Compiled);
+    
     public Guid Id { get; private set; }
     public string Email { get; private set; }
+    public string? PhoneNumber { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string PasswordHash { get; private set; }
     public string Role { get; private set; }
 
-    public User(string email, string firstName, string lastName, string passwordHash)
+    public User(string email, string? phoneNumber, string firstName, string lastName, string passwordHash)
     {
         if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
         {
@@ -30,6 +34,7 @@ public sealed class User : Entity
         
         Id = Guid.NewGuid();
         Email = email;
+        PhoneNumber = phoneNumber;
         FirstName = firstName;
         LastName = lastName;
         PasswordHash = passwordHash;
