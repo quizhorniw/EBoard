@@ -4,11 +4,12 @@ namespace SolarLab.EBoard.Domain.Users;
 
 public sealed class User : Entity
 {
-    public Guid Id { get; set; }
-    public string Email { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string PasswordHash { get; set; }
+    public Guid Id { get; private set; }
+    public string Email { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string PasswordHash { get; private set; }
+    public string Role { get; private set; }
 
     public User(string email, string firstName, string lastName, string passwordHash)
     {
@@ -32,6 +33,7 @@ public sealed class User : Entity
         FirstName = firstName;
         LastName = lastName;
         PasswordHash = passwordHash;
+        Role = "User";
         
         Raise(new UserRegisteredDomainEvent(Id));
     }
