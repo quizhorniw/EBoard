@@ -5,6 +5,8 @@ namespace SolarLab.EBoard.Domain.Users;
 
 public sealed class User : Entity
 {
+    private readonly Regex _emailRegex = new(@"^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b$", 
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private readonly Regex _phoneNumberRegex = new(@"^\+7\d{10}$", RegexOptions.Compiled);
     
     public Guid Id { get; private set; }
@@ -17,7 +19,7 @@ public sealed class User : Entity
 
     public User(string email, string? phoneNumber, string firstName, string lastName, string passwordHash)
     {
-        if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
+        if (string.IsNullOrWhiteSpace(email) || !_emailRegex.IsMatch(email))
         {
             throw new ArgumentException("Invalid email address.", nameof(email));
         }
