@@ -50,4 +50,9 @@ public sealed class AdPost : Entity
         CategoryId = categoryId;
         Price = price;
     }
+
+    public void SetUserId(Guid userId)
+    {
+        UserId = userId;
+    }
 }

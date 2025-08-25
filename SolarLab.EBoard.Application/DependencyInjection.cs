@@ -2,7 +2,7 @@ using FluentValidation;
 using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
-using SolarLab.EBoard.Application.Mapping;
+using SolarLab.EBoard.Application.Mappings;
 
 namespace SolarLab.EBoard.Application;
 
