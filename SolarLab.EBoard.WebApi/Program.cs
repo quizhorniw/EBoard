@@ -1,12 +1,14 @@
 using SolarLab.EBoard.Application;
 using SolarLab.EBoard.Infrastructure;
+using SolarLab.EBoard.WebApi;
 using SolarLab.EBoard.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddApplication()
-    .AddInfrastructure(builder.Configuration);
+    .AddInfrastructure(builder.Configuration)
+    .AddPresentation();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

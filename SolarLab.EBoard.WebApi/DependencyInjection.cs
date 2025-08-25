@@ -1,25 +1,19 @@
-using FluentValidation;
 using Mapster;
 using MapsterMapper;
-using Microsoft.Extensions.DependencyInjection;
-using SolarLab.EBoard.Application.Mapping;
+using SolarLab.EBoard.WebApi.Mappings;
 
-namespace SolarLab.EBoard.Application;
+namespace SolarLab.EBoard.WebApi;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
-        services.AddMediatR(config => config
-            .RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
-        
-        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+        services
+            .AddContractMappings();
 
-        services.AddContractMappings();
-        
         return services;
     }
-    
+
     private static IServiceCollection AddContractMappings(this IServiceCollection services)
     {
         var config = TypeAdapterConfig.GlobalSettings;
@@ -28,7 +22,7 @@ public static class DependencyInjection
             typeof(AdPostMappingConfig).Assembly,
             typeof(UserMappingConfig).Assembly,
             typeof(CategoryMappingConfig).Assembly
-        );
+            );
         
         services.AddSingleton(config);
         services.AddScoped<IMapper, ServiceMapper>();
