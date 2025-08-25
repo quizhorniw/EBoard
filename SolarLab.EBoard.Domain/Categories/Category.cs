@@ -1,0 +1,32 @@
+using SolarLab.EBoard.Domain.Commons;
+
+namespace SolarLab.EBoard.Domain.Categories;
+
+public sealed class Category : Entity
+{
+    public Guid Id { get; private set; }
+    public string Name { get; private set; }
+    public Guid? ParentId { get; set; }
+    
+    public Category(string name, Guid? parentId)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Invalid category name.", nameof(name));
+        }
+        
+        Id = Guid.NewGuid();
+        Name = name;
+        ParentId = parentId;
+    }
+
+    public void Rename(string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            throw new ArgumentException("Invalid category name.", nameof(newName));
+        }
+
+        Name = newName;
+    }
+}
