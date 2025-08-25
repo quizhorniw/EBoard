@@ -1,3 +1,5 @@
+using Mapster;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +8,7 @@ using SolarLab.EBoard.Application.AdPosts.Delete;
 using SolarLab.EBoard.Application.AdPosts.GetAll;
 using SolarLab.EBoard.Application.AdPosts.GetById;
 using SolarLab.EBoard.Application.AdPosts.Update;
-using SolarLab.EBoard.Domain.AdPosts;
+using SolarLab.EBoard.WebApi.AdPosts;
 
 namespace SolarLab.EBoard.WebApi.Controllers;
 
@@ -15,52 +17,60 @@ namespace SolarLab.EBoard.WebApi.Controllers;
 public class AdPostsController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public AdPostsController(IMediator mediator)
+    public AdPostsController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<AdPost>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<AdPostResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetAllAdPostsQuery(), cancellationToken);
-        return Ok(result);
+        var response = result.Select(_mapper.Map<AdPostResponse>);
+        return Ok(response);
     }
     
-    [HttpGet("{adPostId:guid}")]
+    [HttpGet("{id:guid}")]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<AdPost>>> GetById(Guid adPostId, CancellationToken cancellationToken)
+    public async Task<ActionResult<AdPostResponse>> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new GetAdPostByIdQuery(adPostId), cancellationToken);
-        return result is not null ? Ok(result) : NotFound();
+        var result = await _mediator.Send(new GetAdPostByIdQuery(id), cancellationToken);
+        if (result is null)
+        {
+            return NotFound();
+        }
+        
+        var response = _mapper.Map<AdPostResponse>(result);
+        return Ok(response);
     }
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<Guid>> Create(CreateAdPostCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult<Guid>> Create(CreateAdPostRequest request, CancellationToken cancellationToken)
     {
+        var command = _mapper.Map<CreateAdPostCommand>(request);
         var result = await _mediator.Send(command, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { adPostId = result }, result);
     }
 
-    [HttpPut("{adPostId:guid}")]
+    [HttpPut("{id:guid}")]
     [Authorize]
-    public async Task<ActionResult> Update(Guid adPostId, UpdateAdPostCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult> Update(Guid id, UpdateAdPostRequest request, CancellationToken cancellationToken)
     {
-        if (adPostId != command.AdPostId)
-            return BadRequest("Id mismatch");
-        
+        var command = request.Adapt<UpdateAdPostCommand>() with { Id = id };
         await _mediator.Send(command, cancellationToken);
         return NoContent();
     }
 
-    [HttpDelete("{adPostId:guid}")]
+    [HttpDelete("{id:guid}")]
     [Authorize]
-    public async Task<ActionResult> Delete(Guid adPostId, CancellationToken cancellationToken)
+    public async Task<ActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteAdPostCommand(adPostId), cancellationToken);
+        await _mediator.Send(new DeleteAdPostCommand(id), cancellationToken);
         return NoContent();
     }
 }

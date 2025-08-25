@@ -1,20 +1,23 @@
+using MapsterMapper;
 using MediatR;
 using SolarLab.EBoard.Domain.Interfaces;
-using SolarLab.EBoard.Domain.Users;
 
 namespace SolarLab.EBoard.Application.Users.GetById;
 
-public sealed class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, User?>
+public sealed class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto?>
 {
     private readonly IUsersRepository _usersRepository;
+    private readonly IMapper _mapper;
 
-    public GetUserByIdQueryHandler(IUsersRepository usersRepository)
+    public GetUserByIdQueryHandler(IUsersRepository usersRepository, IMapper mapper)
     {
         _usersRepository = usersRepository;
+        _mapper = mapper;
     }
 
-    public async Task<User?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    public async Task<UserDto?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _usersRepository.GetByIdAsync(request.UserId, cancellationToken);
+        var result = await _usersRepository.GetByIdAsync(request.Id, cancellationToken);
+        return result is not null ? _mapper.Map<UserDto>(result) : null;
     }
 }
