@@ -6,7 +6,7 @@ public sealed class Category : Entity
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public Guid? ParentId { get; set; }
+    public Guid? ParentId { get; private set; }
     
     public Category(string name, Guid? parentId)
     {
@@ -28,5 +28,10 @@ public sealed class Category : Entity
         }
 
         Name = newName;
+    }
+
+    public void SetParent(Guid? parentId)
+    {
+        ParentId = parentId;
     }
 }

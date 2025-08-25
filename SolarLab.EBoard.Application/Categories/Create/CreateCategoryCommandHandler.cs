@@ -20,7 +20,7 @@ public sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategor
         var parent = request.ParentId.HasValue 
             ? await _categoriesRepository.GetByIdAsync(request.ParentId.Value, cancellationToken) 
             : null;
-        category.ParentId = parent?.Id ?? null;
+        category.SetParent(parent?.Id ?? null);
         
         await _categoriesRepository.AddAsync(category, cancellationToken);
 

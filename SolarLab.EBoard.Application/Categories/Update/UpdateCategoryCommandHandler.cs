@@ -21,7 +21,7 @@ public sealed class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategor
         }
         
         category.Rename(request.Name);
-        category.ParentId = request.ParentId;
+        category.SetParent(request.ParentId);
         
         await _categoriesRepository.UpdateAsync(category, cancellationToken);
     }
