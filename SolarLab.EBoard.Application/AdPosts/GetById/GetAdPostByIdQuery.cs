@@ -1,6 +1,5 @@
 using MediatR;
-using SolarLab.EBoard.Domain.AdPosts;
 
 namespace SolarLab.EBoard.Application.AdPosts.GetById;
 
-public sealed record GetAdPostByIdQuery(Guid AdPostId) : IRequest<AdPost?>;
+public sealed record GetAdPostByIdQuery(Guid Id) : IRequest<AdPostDto?>;
