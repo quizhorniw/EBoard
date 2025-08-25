@@ -7,11 +7,12 @@ public sealed class AdPost : Entity
     public Guid Id { get; private set; }
     public string Title { get; private set; }
     public string? Description { get; private set; }
+    public Guid CategoryId { get; private set; }
     public decimal Price { get; private set; }
     public Guid UserId { get; private set; }
     public DateTime CreatedAt { get; private set; }
     
-    public AdPost(Guid userId, string title, string? description, decimal price)
+    public AdPost(Guid userId, string title, string? description, Guid categoryId, decimal price)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -27,11 +28,12 @@ public sealed class AdPost : Entity
         UserId = userId;
         Title = title;
         Description = description;
+        CategoryId = categoryId;
         Price = price;
         CreatedAt = DateTime.UtcNow;
     }
 
-    public void UpdateDetails(string title, string? description, decimal price)
+    public void UpdateDetails(string title, string? description, Guid categoryId, decimal price)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -45,6 +47,12 @@ public sealed class AdPost : Entity
         
         Title = title;
         Description = description;
+        CategoryId = categoryId;
         Price = price;
+    }
+
+    public void SetUserId(Guid userId)
+    {
+        UserId = userId;
     }
 }

@@ -6,6 +6,6 @@ internal sealed class DeleteAdPostCommandValidator : AbstractValidator<DeleteAdP
 {
     public DeleteAdPostCommandValidator()
     {
-        RuleFor(c => c.AdPostId).NotEmpty();
+        RuleFor(c => c.Id).NotEmpty();
     }
 }

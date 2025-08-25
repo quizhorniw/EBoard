@@ -17,7 +17,7 @@ public sealed class DeleteAdPostCommandHandler : IRequestHandler<DeleteAdPostCom
 
     public async Task Handle(DeleteAdPostCommand request, CancellationToken cancellationToken)
     {
-        var adPost = await _adPostsRepository.GetByIdAsync(request.AdPostId, cancellationToken);
+        var adPost = await _adPostsRepository.GetByIdAsync(request.Id, cancellationToken);
         if (adPost is null) return;
         
         if (!_userContext.IsInRole("Admin") && _userContext.UserId != adPost.UserId)
@@ -25,6 +25,6 @@ public sealed class DeleteAdPostCommandHandler : IRequestHandler<DeleteAdPostCom
             throw new UnauthorizedAccessException("No permission to delete this ad post");
         }
         
-        await _adPostsRepository.DeleteAsync(request.AdPostId, cancellationToken);
+        await _adPostsRepository.DeleteAsync(request.Id, cancellationToken);
     }
 }
