@@ -2,7 +2,7 @@ using Mapster;
 using SolarLab.EBoard.Application.AdPosts;
 using SolarLab.EBoard.Domain.AdPosts;
 
-namespace SolarLab.EBoard.Application.Mapping;
+namespace SolarLab.EBoard.Application.Mappings;
 
 public sealed class AdPostMappingConfig : IRegister
 {

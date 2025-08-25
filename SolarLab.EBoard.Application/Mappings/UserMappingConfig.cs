@@ -2,7 +2,7 @@ using Mapster;
 using SolarLab.EBoard.Application.Users;
 using SolarLab.EBoard.Domain.Users;
 
-namespace SolarLab.EBoard.Application.Mapping;
+namespace SolarLab.EBoard.Application.Mappings;
 
 public sealed class UserMappingConfig : IRegister
 {
