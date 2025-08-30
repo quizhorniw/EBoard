@@ -41,7 +41,7 @@ public class UsersController : ControllerBase
     {
         var command = _mapper.Map<RegisterUserCommand>(request); 
         var result = await _mediator.Send(command, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { userId = result }, result);
+        return CreatedAtAction(nameof(GetById), new { id = result }, result);
     }
 
     [HttpPost("[action]")]

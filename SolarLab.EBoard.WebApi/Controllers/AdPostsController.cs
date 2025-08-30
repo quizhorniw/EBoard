@@ -54,7 +54,7 @@ public class AdPostsController : ControllerBase
     {
         var command = _mapper.Map<CreateAdPostCommand>(request);
         var result = await _mediator.Send(command, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { adPostId = result }, result);
+        return CreatedAtAction(nameof(GetById), new { id = result }, result);
     }
 
     [HttpPut("{id:guid}")]
