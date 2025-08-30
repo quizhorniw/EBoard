@@ -15,7 +15,7 @@ internal sealed class Create : IEndpoint
             {
                 var command = mapper.Map<CreateCommentCommand>(request);
                 var result = await mediator.Send(command, cancellationToken);
-                return Results.Created($"comments/{result}", new { Id = result });
+                return Results.CreatedAtRoute(GetById.EndpointName, new { Id = result }, result);
             })
             .RequireAuthorization();
     }
