@@ -54,7 +54,7 @@ public class CategoriesController : ControllerBase
     {
         var command = _mapper.Map<CreateCategoryCommand>(request);
         var result = await _mediator.Send(command, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { categoryId = result }, result);
+        return CreatedAtAction(nameof(GetById), new { id = result }, result);
     }
 
     [HttpPut("{id:guid}")]
