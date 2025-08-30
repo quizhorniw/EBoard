@@ -1,6 +1,5 @@
 using MapsterMapper;
 using MediatR;
-using SolarLab.EBoard.Domain.Categories;
 using SolarLab.EBoard.Domain.Interfaces;
 
 namespace SolarLab.EBoard.Application.Categories.GetById;

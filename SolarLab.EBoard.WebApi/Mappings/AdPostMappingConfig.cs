@@ -12,7 +12,6 @@ public sealed class AdPostMappingConfig : IRegister
     {
         config.NewConfig<AdPostDto, AdPostResponse>();
         config.NewConfig<CreateAdPostRequest, CreateAdPostCommand>();
-        config.NewConfig<UpdateAdPostRequest, UpdateAdPostCommand>()
-            .Map(dest => dest.Id, src => Guid.Empty);
+        config.NewConfig<UpdateAdPostRequest, UpdateAdPostCommand>();
     }
 }

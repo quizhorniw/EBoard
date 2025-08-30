@@ -1,5 +1,3 @@
-using Mapster;
-using MapsterMapper;
 using MediatR;
 using SolarLab.EBoard.Application.Abstractions.Authentication;
 using SolarLab.EBoard.Domain.AdPosts;
@@ -11,18 +9,22 @@ public sealed class CreateAdPostCommandHandler : IRequestHandler<CreateAdPostCom
 {
     private readonly IAdPostsRepository _adPostsRepository;
     private readonly IUserContext _userContext;
-    private readonly IMapper _mapper;
 
-    public CreateAdPostCommandHandler(IAdPostsRepository adPostsRepository, IUserContext userContext, IMapper mapper)
+    public CreateAdPostCommandHandler(IAdPostsRepository adPostsRepository, IUserContext userContext)
     {
         _adPostsRepository = adPostsRepository;
         _userContext = userContext;
-        _mapper = mapper;
     }
 
     public async Task<Guid> Handle(CreateAdPostCommand request, CancellationToken cancellationToken)
     {
-        var adPost = _mapper.Map<AdPost>(request);
+        var adPost = new AdPost(
+            _userContext.UserId,
+            request.Title,
+            request.Description,
+            request.CategoryId,
+            request.Price
+            );
         adPost.SetUserId(_userContext.UserId);
         
         await _adPostsRepository.AddAsync(adPost, cancellationToken);

@@ -9,8 +9,6 @@ public sealed class AdPostMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<CreateAdPostCommand, AdPost>()
-            .Map(dest => dest.Id, src => Guid.Empty);
         config.NewConfig<AdPost, AdPostDto>();
     }
 }

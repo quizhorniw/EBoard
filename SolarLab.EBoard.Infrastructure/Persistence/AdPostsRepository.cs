@@ -37,10 +37,10 @@ public class AdPostsRepository : IAdPostsRepository
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var ad = await GetByIdAsync(id, cancellationToken);
-        if (ad is null) return;
+        var adPost = await GetByIdAsync(id, cancellationToken);
+        if (adPost is null) return;
         
-        _context.AdPosts.Remove(ad);
+        _context.AdPosts.Remove(adPost);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

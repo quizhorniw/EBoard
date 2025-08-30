@@ -12,7 +12,6 @@ public sealed class CategoryMappingConfig : IRegister
     {
         config.NewConfig<CategoryDto, CategoryResponse>();
         config.NewConfig<CreateCategoryRequest, CreateCategoryCommand>();
-        config.NewConfig<UpdateCategoryRequest, UpdateCategoryCommand>()
-            .Map(dest => dest.Id, src => Guid.Empty);
+        config.NewConfig<UpdateCategoryRequest, UpdateCategoryCommand>();
     }
 }
