@@ -27,7 +27,8 @@ public static class DependencyInjection
         config.Scan(
             typeof(AdPostMappingConfig).Assembly,
             typeof(UserMappingConfig).Assembly,
-            typeof(CategoryMappingConfig).Assembly
+            typeof(CategoryMappingConfig).Assembly,
+            typeof(CommentMappingConfig).Assembly
         );
         
         services.AddSingleton(config);

@@ -1,3 +1,4 @@
+using System.Reflection;
 using SolarLab.EBoard.Application;
 using SolarLab.EBoard.Infrastructure;
 using SolarLab.EBoard.WebApi;
@@ -10,12 +11,17 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddPresentation();
 
+builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+var apiGroup = app.MapGroup("/api");
+app.MapEndpoints(apiGroup);
+    
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
