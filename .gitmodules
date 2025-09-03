@@ -1,0 +1,3 @@
+[submodule "EBoard.Identity"]
+	path = EBoard.Identity
+	url = https://github.com/quizhorniw/EBoard.Identity.git
