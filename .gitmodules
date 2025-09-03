@@ -1,0 +1,6 @@
+[submodule "EBoard.Identity"]
+	path = EBoard.Identity
+	url = https://github.com/quizhorniw/EBoard.Identity.git
+[submodule "EBoard.Posts"]
+	path = EBoard.Posts
+	url = https://github.com/quizhorniw/EBoard.Posts.git
