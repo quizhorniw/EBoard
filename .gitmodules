@@ -4,3 +4,6 @@
 [submodule "EBoard.Posts"]
 	path = EBoard.Posts
 	url = https://github.com/quizhorniw/EBoard.Posts.git
+[submodule "EBoard.Notifications"]
+	path = EBoard.Notifications
+	url = https://github.com/quizhorniw/EBoard.Notifications.git
