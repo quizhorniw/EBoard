@@ -1,0 +1,108 @@
+services:
+  identity:
+    build:
+      context: SolarLab.EBoard.Identity
+      dockerfile: SolarLab.EBoard.Identity.WebApi/Dockerfile
+    container_name: eboard.identity
+    ports:
+      - "5000:8080"
+    depends_on:
+      - postgres
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9093
+      POSTGRES_CONNECTION_STRING:
+      ASPNETCORE_ENVIRONMENT: Development
+      JWT_SECRET:
+      JWT_ISSUER: http://localhost:5000
+      JWT_AUDIENCE:
+      JWT_ACCESS_EXPIRATION_MINUTES: 10
+      JWT_REFRESH_EXPIRATION_DAYS: 7
+      BASE_URL: http://localhost:5000
+      CONTACT_NAME:
+      CONTACT_EMAIL:
+      CONTACT_URL:
+    networks:
+      - common
+  
+  posts:
+    build:
+      context: SolarLab.EBoard.Posts
+      dockerfile: SolarLab.EBoard.Posts.WebApi/Dockerfile
+    container_name: eboard.posts
+    ports:
+      - "5001:8080"
+    depends_on:
+      - postgres
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9093
+      POSTGRES_CONNECTION_STRING:
+      ASPNETCORE_ENVIRONMENT: Development 
+      JWT_SECRET:
+      JWT_ISSUER: http://localhost:5000
+      JWT_AUDIENCE:
+      FILESTORAGE_URL: http://localhost:5001/uploads
+      IDENTITY_SERVICE_URL: http://identity:8080
+      CONTACT_NAME:
+      CONTACT_EMAIL:
+      CONTACT_URL:
+    networks:
+      - common
+
+  notifications:
+    build:
+      context: SolarLab.EBoard.Notifications
+      dockerfile: SolarLab.EBoard.Notifications.Worker/Dockerfile
+    container_name: eboard.notifications
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9093
+      ASPNETCORE_ENVIRONMENT: Development
+      SMTP_HOST:
+      SMTP_PORT:
+      SMTP_USE_SSL:
+      SMTP_FROM_NAME:
+      SMTP_FROM_ADDRESS:
+      SMTP_USERNAME:
+      SMTP_PASSWORD: 
+    networks:
+      - common
+
+  postgres:
+    image: postgres:17.5
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - common
+
+  kafka:
+    image: apache/kafka-native
+    container_name: broker
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_LISTENERS: CONTROLLER://localhost:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: HOST://localhost:9092,DOCKER://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,DOCKER:PLAINTEXT,HOST:PLAINTEXT
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9091
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - common
+
+volumes:
+  postgres_data:
+
+networks:
+  common:
